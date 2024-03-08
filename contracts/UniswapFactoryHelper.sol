@@ -35,12 +35,15 @@ contract UniswapFactoryHelper {
         }
         return resized;
     }
-    function deepestPoolFor(IUniswapV2Factory factory, address token) public view returns (address, uint112) {
+    function deepestPoolFor(IUniswapV2Factory factory, address token, address[] memory ignorePools) public view returns (address, uint112) {
         uint allPairsLength = factory.allPairsLength();
         uint112 deepestReserves = 0;
         address deepestPool = address(0);
         for (uint i = 0; i < allPairsLength; i++) {
             address pair = factory.allPairs(i);
+            if (shouldIgnore(pair, ignorePools)) {
+                continue;
+            }
             IUniswapV2Pool pool = IUniswapV2Pool(pair);
             if (token == pool.token0()) {
                 (uint112 reserves,,) = pool.getReserves();
@@ -79,5 +82,13 @@ contract UniswapFactoryHelper {
             }
         }
         return (deepestPool, deepestReserves);
+    }
+    function shouldIgnore(address pair, address[] memory ignorePools) internal view returns (bool) {
+        for (uint i = 0; i < ignorePools.length; i++) {
+            if (pair == ignorePools[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 }
