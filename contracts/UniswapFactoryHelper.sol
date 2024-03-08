@@ -41,17 +41,20 @@ contract UniswapFactoryHelper {
         address deepestPool = address(0);
         for (uint i = 0; i < allPairsLength; i++) {
             address pair = factory.allPairs(i);
-            if (shouldIgnore(pair, ignorePools)) {
-                continue;
-            }
             IUniswapV2Pool pool = IUniswapV2Pool(pair);
             if (token == pool.token0()) {
+                if (shouldIgnore(pair, ignorePools)) {
+                    continue;
+                }
                 (uint112 reserves,,) = pool.getReserves();
                 if (reserves > deepestReserves) {
                     deepestReserves = reserves;
                     deepestPool = pair;
                 }
             } else if (token == pool.token1()) {
+                if (shouldIgnore(pair, ignorePools)) {
+                    continue;
+                }
                 (,uint112 reserves,) = pool.getReserves();
                 if (reserves > deepestReserves) {
                     deepestReserves = reserves;
