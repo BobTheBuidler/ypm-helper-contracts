@@ -1,5 +1,5 @@
 
-pragma solidity =0.5.16;
+pragma solidity ^0.8.0;
 
 interface IERC20 {
     function name() external view returns (string memory);
@@ -24,5 +24,29 @@ contract MultiERC20 {
             balances[i] = tokens[i].balanceOf(wallet);
         }
         return balances;
+    }
+    function totalSupplys(IERC20[] memory tokens) public view returns (uint[] memory) {
+        uint tokensLength = tokens.length;
+        uint[] memory supplys = new uint[](tokensLength);
+        for (uint i = 0; i < tokensLength; i++) {
+            supplys[i] = tokens[i].totalSupply();
+        }
+        return supplys;
+    }
+    function names(IERC20[] memory tokens) public view returns (string[] memory) {
+        uint tokensLength = tokens.length;
+        string[] memory _names = new string[](tokensLength);
+        for (uint i = 0; i < tokensLength; i++) {
+            _names[i] = tokens[i].name();
+        }
+        return _names;
+    }
+    function symbols(IERC20[] memory tokens) public view returns (string[] memory) {
+        uint tokensLength = tokens.length;
+        string[] memory _symbols = new string[](tokensLength);
+        for (uint i = 0; i < tokensLength; i++) {
+            _symbols[i] = tokens[i].symbol();
+        }
+        return _symbols;
     }
 }
