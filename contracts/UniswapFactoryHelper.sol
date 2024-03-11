@@ -67,7 +67,7 @@ contract UniswapFactoryHelper {
         }
         return (deepestPool, deepestReserves);
     }
-    function deepestPoolForFrom(IUniswapV2Pool[] memory pools, address token) public view returns (address, uint112) {
+    function deepestPoolForFrom(address token, IUniswapV2Pool[] memory pools) public view returns (address, uint112) {
         uint poolsLength = pools.length;
         uint112 deepestReserves = 0;
         address deepestPool = address(0);
