@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 interface IERC20 {
     function name() external view returns (string memory);
     function symbol() external view returns (string memory);
-    function decinals() external view returns (uint8);
+    function decimals() external view returns (uint8);
     function balanceOf(address) external view returns (uint);
     function totalSupply() external view returns (uint);
 }
@@ -36,7 +36,7 @@ contract MultiERC20 {
     }
     function decimalses(IERC20[] memory tokens) public view returns (uint8[] memory) {
         uint tokensLength = tokens.length;
-        string[] memory _decimals = new string[](tokensLength);
+        uint8[] memory _decimals = new uint8[](tokensLength);
         for (uint i = 0; i < tokensLength; i++) {
             _decimals[i] = tokens[i].decimals();
         }
